@@ -378,3 +378,6 @@ Press `Ctrl+Alt+F2` to get a text login, then run the same commands as Option A.
 
 - **Before patch**: Persistent block-aligned "rainbow static" artifacts on high-detail VR content
 - **After patch**: Artifacts completely eliminated; display output matches Windows quality
+
+## License
+This patch is provided under the MIT License.
