@@ -1,6 +1,6 @@
 # NVIDIA Open GPU Kernel Modules — BSB DSC Fix Patch Summary
 
-All changes are against `open-gpu-kernel-modules` 580.119.02. Six files modified, three distinct fixes.
+All changes are against `open-gpu-kernel-modules` 580.119.02. Four files modified, three distinct fixes.
 
 ---
 
@@ -162,39 +162,6 @@ Adds the Bigscreen Beyond VR headset (ManufacturerID 0x2709, ProductID 0x1234) t
          // CMN
          case 0xAE0D:
              if (ProductID == 0x1747)
-```
-
----
-
-## Convenience: DRM Modeset Default
-
-**File: `kernel-open/nvidia-drm/nvidia-drm-linux.c`**
-**File: `kernel-open/nvidia-drm/nvidia-drm-os-interface.c`**
-
-Changes the `nvidia-drm.modeset` kernel parameter default from `false` to `true`. This is required for Wayland compositors (KDE Plasma, GNOME on Wayland) and is the standard recommendation for modern Linux desktops. Without this, users must pass `nvidia-drm.modeset=1` on the kernel command line or via modprobe config.
-
-```diff
---- a/kernel-open/nvidia-drm/nvidia-drm-linux.c
-+++ b/kernel-open/nvidia-drm/nvidia-drm-linux.c
-@@ -31,7 +31,7 @@
-
- MODULE_PARM_DESC(
-     modeset,
--    "Enable atomic kernel modesetting (1 = enable, 0 = disable (default))");
-+    "Enable atomic kernel modesetting (1 = enable (default), 0 = disable)");
- module_param_named(modeset, nv_drm_modeset_module_param, bool, 0400);
-```
-
-```diff
---- a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c
-+++ b/kernel-open/nvidia-drm/nvidia-drm-os-interface.c
-@@ -38,7 +38,7 @@
- #include <drm/drmP.h>
- #endif
-
--bool nv_drm_modeset_module_param = false;
-+bool nv_drm_modeset_module_param = true;
- bool nv_drm_fbdev_module_param = true;
 ```
 
 ---

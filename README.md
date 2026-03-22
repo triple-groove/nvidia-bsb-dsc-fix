@@ -2,7 +2,7 @@
 
 Fixes Display Stream Compression (DSC) "rainbow static" block artifacts on the Bigscreen Beyond (BSB) VR headset when using NVIDIA open GPU kernel modules on Linux.
 
-This patch contains three fixes and one convenience change against `open-gpu-kernel-modules` 580.119.02.
+This patch contains three fixes against `open-gpu-kernel-modules` 580.119.02.
 
 ---
 
@@ -212,32 +212,6 @@ Adds the BSB (ManufacturerID 0x2709, ProductID 0x1234) to the DisplayPort workar
          // CMN
          case 0xAE0D:
              if (ProductID == 0x1747)
-```
-
----
-
-### Convenience: DRM Modeset Default
-
-**Files:** `kernel-open/nvidia-drm/nvidia-drm-linux.c`, `kernel-open/nvidia-drm/nvidia-drm-os-interface.c`
-
-Changes the `nvidia-drm.modeset` kernel parameter default from `false` to `true`. Required for Wayland compositors. Without this you must pass `nvidia-drm.modeset=1` on the kernel command line. **You may omit this change if you already set this parameter via modprobe config or kernel cmdline.**
-
-```diff
---- a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c
-+++ b/kernel-open/nvidia-drm/nvidia-drm-os-interface.c
-@@ -38,7 +38,7 @@
--bool nv_drm_modeset_module_param = false;
-+bool nv_drm_modeset_module_param = true;
-```
-
-```diff
---- a/kernel-open/nvidia-drm/nvidia-drm-linux.c
-+++ b/kernel-open/nvidia-drm/nvidia-drm-linux.c
-@@ -31,7 +31,7 @@
- MODULE_PARM_DESC(
-     modeset,
--    "Enable atomic kernel modesetting (1 = enable, 0 = disable (default))");
-+    "Enable atomic kernel modesetting (1 = enable (default), 0 = disable)");
 ```
 
 ---
