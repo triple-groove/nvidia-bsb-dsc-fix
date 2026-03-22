@@ -273,13 +273,24 @@ sudo cp kernel-open/nvidia-uvm.ko     /lib/modules/$(uname -r)/extra/nvidia/
 sudo depmod -a
 ```
 
-### Step 5: Reboot
+### Step 5: Ensure nvidia-drm.modeset=1 is set
+
+Source-built modules default `nvidia-drm.modeset` to `false`. Distribution packages (e.g. Fedora akmods) typically default it to `true`. Without this parameter, KMS is disabled and your display will show the wrong resolution with the monitor identified as `Unknown-1`.
+
+```bash
+# Add to kernel cmdline (persistent across reboots)
+sudo grubby --update-kernel=ALL --args="nvidia-drm.modeset=1"
+```
+
+If you already have this set via `/etc/modprobe.d/` or kernel cmdline, you can skip this step.
+
+### Step 6: Reboot
 
 ```bash
 sudo reboot
 ```
 
-### Step 6: Verify
+### Step 7: Verify
 
 After reboot, check that the patched modules loaded:
 
